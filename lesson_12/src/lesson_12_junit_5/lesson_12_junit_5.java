@@ -1,3 +1,4 @@
+package lesson_12_junit_5;
 
 public class lesson_12_junit_5 {
 
