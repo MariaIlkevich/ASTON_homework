@@ -8,7 +8,7 @@ class test {
 
 	@Test
 	public void testFactorial() {
-		assertEquals(1, Factorial(0));
+		assertEquals(1,5, Factorial(0)); //специально неверное число внесла, чтобы проверить на работоспособность - вместо 1,5 написать 1
 		assertEquals(1, Factorial(1));
 		assertEquals(2, Factorial(2));
 		assertEquals(6, Factorial(3));
