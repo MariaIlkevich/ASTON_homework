@@ -1,4 +1,4 @@
-package com.example.MTSAutotests;
+package com.MTSAutotests;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;

@@ -14,12 +14,6 @@
         <version>5.9.1</version>
         <scope>test</scope>
     </dependency>
-
-      <dependency>
-        <groupId>io.github.bonigarcia</groupId>
-        <artifactId>webdrivermanager</artifactId>
-        <version>5.9.1</version>
-      </dependency>
       <dependency>
         <groupId>org.seleniumhq.selenium</groupId>
         <artifactId>selenium-java</artifactId>
@@ -29,6 +23,12 @@
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
       <version>7.7.0</version> <!-- Пожалуйста, проверьте сайт TestNG на предмет актуальной версии -->
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.github.bonigarcia</groupId>
+      <artifactId>webdrivermanager</artifactId>
+      <version>5.9.3</version>
       <scope>test</scope>
     </dependency>
     </dependencies>
