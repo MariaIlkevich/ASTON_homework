@@ -9,35 +9,33 @@ public class HomePage {
 
     private WebDriver driver;
 
-    // Элементы страницы
-    @FindBy(xpath = "//h2[contains(text(), 'Онлайн пополнение без комиссии')]")
-    private WebElement onlineTopUpBlock;
-
-    @FindBy(linkText = "Подробнее о сервисе")
-    private WebElement detailsLink;
-
-    @FindBy(id = "service-radio-id") // Замените на реальный ID
+    @FindBy(id = "service-radio-id")
     private WebElement serviceRadioButton;
 
-    @FindBy(id = "phone-input-id") // Замените на реальный ID
+    @FindBy(id = "phone-input-id")
     private WebElement phoneNumberInput;
 
-    @FindBy(id = "continue-button-id") // Замените на реальный ID
+    @FindBy(id = "continue-button-id")
     private WebElement continueButton;
 
-    // Конструктор
+    @FindBy(id = "amount-display-id")
+    private WebElement amountDisplay;
+
+    @FindBy(id = "phone-display-id")
+    private WebElement phoneDisplay;
+
+    @FindBy(id = "card-number-input-id")
+    private WebElement cardNumberInput;
+
+    @FindBy(id = "card-expiry-input-id")
+    private WebElement cardExpiryInput;
+
+    @FindBy(id = "card-cvv-input-id")
+    private WebElement cardCvvInput;
+
     public HomePage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
-    }
-
-    // Методы для работы с элементами
-    public boolean isOnlineTopUpBlockDisplayed() {
-        return onlineTopUpBlock.isDisplayed();
-    }
-
-    public void clickDetailsLink() {
-        detailsLink.click();
     }
 
     public void selectService() {
@@ -52,11 +50,23 @@ public class HomePage {
         continueButton.click();
     }
 
-    public String getPageTitle() {
-        return driver.getTitle();
+    public String getAmountDisplayText() {
+        return amountDisplay.getText();
     }
 
-    public void navigateBack() {
-        driver.navigate().back();
+    public String getPhoneDisplayText() {
+        return phoneDisplay.getText();
+    }
+
+    public String getCardNumberInputPlaceholder() {
+        return cardNumberInput.getAttribute("placeholder");
+    }
+
+    public String getCardExpiryInputPlaceholder() {
+        return cardExpiryInput.getAttribute("placeholder");
+    }
+
+    public String getCardCvvInputPlaceholder() {
+        return cardCvvInput.getAttribute("placeholder");
     }
 }

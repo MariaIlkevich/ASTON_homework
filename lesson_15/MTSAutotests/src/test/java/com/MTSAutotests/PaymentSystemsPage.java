@@ -5,8 +5,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-import java.util.List;
-
 public class PaymentSystemsPage {
 
     private WebDriver driver;
@@ -30,13 +28,11 @@ public class PaymentSystemsPage {
     @FindBy(xpath = "//img[contains(@src, 'paypal')]")
     private WebElement paypalLogo;
 
-    // Конструктор
     public PaymentSystemsPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
 
-    // Методы для проверки логотипов
     public boolean isVisaLogoDisplayed() {
         return visaLogo.isDisplayed();
     }

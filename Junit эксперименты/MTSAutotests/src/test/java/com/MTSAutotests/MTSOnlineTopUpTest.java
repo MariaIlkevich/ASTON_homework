@@ -25,19 +25,38 @@ public class MTSOnlineTopUpTest {
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.get("https://www.mts.by/");
 
-        // Инициализация Page Object
         homePage = new HomePage(driver);
         paymentSystemsPage = new PaymentSystemsPage(driver);
     }
 
     @Test
-    public void testBlockName() {
-        Assert.assertTrue(homePage.isOnlineTopUpBlockDisplayed(), "Блок 'Онлайн пополнение без комиссии' не найден");
-        System.out.println("Название блока успешно проверено.");
+    public void testEmptyFieldsPlaceholders() {
+        Assert.assertEquals(homePage.getCardNumberInputPlaceholder(), "Номер карты", "Неправильный плейсхолдер для номера карты");
+        Assert.assertEquals(homePage.getCardExpiryInputPlaceholder(), "ММ/ГГ", "Неправильный плейсхолдер для срока действия карты");
+        Assert.assertEquals(homePage.getCardCvvInputPlaceholder(), "CVV", "Неправильный плейсхолдер для CVV");
+        System.out.println("Надписи в незаполненных полях проверены.");
     }
 
     @Test
-    public void testPaymentLogos() {
+    public void testServicePayment() {
+        homePage.selectService();
+
+        homePage.enterPhoneNumber("297777777");
+
+        homePage.clickContinueButton();
+
+        Assert.assertTrue(homePage.getAmountDisplayText().contains("10.00"), "Неправильная сумма оплаты");
+        Assert.assertEquals(homePage.getPhoneDisplayText(), "297777777", "Неправильный номер телефона");
+        System.out.println("Сумма и номер телефона отображаются корректно.");
+
+        Assert.assertEquals(homePage.getCardNumberInputPlaceholder(), "Номер карты", "Неправильный плейсхолдер для номера карты");
+        Assert.assertEquals(homePage.getCardExpiryInputPlaceholder(), "ММ/ГГ", "Неправильный плейсхолдер для срока действия карты");
+        Assert.assertEquals(homePage.getCardCvvInputPlaceholder(), "CVV", "Неправильный плейсхолдер для CVV");
+        System.out.println("Надписи в незаполненных полях для реквизитов карты проверены.");
+    }
+
+    @Test
+    public void testPaymentSystemIcons() {
         Assert.assertTrue(paymentSystemsPage.isVisaLogoDisplayed(), "Логотип Visa не найден");
         Assert.assertTrue(paymentSystemsPage.isMastercardLogoDisplayed(), "Логотип Mastercard не найден");
         Assert.assertTrue(paymentSystemsPage.isBelcardLogoDisplayed(), "Логотип Belcard не найден");
@@ -45,23 +64,6 @@ public class MTSOnlineTopUpTest {
         Assert.assertTrue(paymentSystemsPage.isQiwiLogoDisplayed(), "Логотип Qiwi не найден");
         Assert.assertTrue(paymentSystemsPage.isPaypalLogoDisplayed(), "Логотип Paypal не найден");
         System.out.println("Все логотипы платёжных систем найдены.");
-    }
-
-    @Test
-    public void testDetailsLink() {
-        homePage.clickDetailsLink();
-        Assert.assertTrue(homePage.getPageTitle().contains("Подробнее о сервисе"), "Не удалось перейти на страницу 'Подробнее о сервисе'");
-        System.out.println("Ссылка 'Подробнее о сервисе' работает корректно.");
-        homePage.navigateBack();
-    }
-
-    @Test
-    public void testContinueButton() {
-        homePage.selectService();
-        homePage.enterPhoneNumber("297777777");
-        homePage.clickContinueButton();
-        Assert.assertTrue(driver.getPageSource().contains("Успех"), "Кнопка 'Продолжить' не сработала");
-        System.out.println("Кнопка 'Продолжить' успешно проверена.");
     }
 
     @AfterClass
