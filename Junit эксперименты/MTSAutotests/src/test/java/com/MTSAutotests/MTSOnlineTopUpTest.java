@@ -1,9 +1,9 @@
 package com.MTSAutotests;
 
+import com.MTSAutotests.HomePage;
+import com.MTSAutotests.PaymentSystemsPage;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -15,6 +15,8 @@ import java.util.concurrent.TimeUnit;
 public class MTSOnlineTopUpTest {
 
     private WebDriver driver;
+    private HomePage homePage;
+    private PaymentSystemsPage paymentSystemsPage;
 
     @BeforeClass
     public void setup() {
@@ -22,48 +24,42 @@ public class MTSOnlineTopUpTest {
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.get("https://www.mts.by/");
+
+        // Инициализация Page Object
+        homePage = new HomePage(driver);
+        paymentSystemsPage = new PaymentSystemsPage(driver);
     }
 
     @Test
     public void testBlockName() {
-        String expectedBlockName = "Онлайн пополнение без комиссии";
-        WebElement onlineTopUpBlock = driver.findElement(By.xpath("//h2[contains(text(), '" + expectedBlockName + "')]"));
-        Assert.assertTrue(onlineTopUpBlock.isDisplayed(), "Блок '" + expectedBlockName + "' не найден");
+        Assert.assertTrue(homePage.isOnlineTopUpBlockDisplayed(), "Блок 'Онлайн пополнение без комиссии' не найден");
         System.out.println("Название блока успешно проверено.");
     }
 
     @Test
     public void testPaymentLogos() {
-        String[] paymentSystems = {"visa", "mastercard", "belcard", "webmoney", "qiwi", "paypal"};
-        for (String system : paymentSystems) {
-            WebElement logo = driver.findElement(By.xpath("//img[contains(@src, '" + system + "')]"));
-            Assert.assertTrue(logo.isDisplayed(), "Логотип " + system + " не найден");
-            System.out.println("Логотип " + system + " успешно найден.");
-        }
+        Assert.assertTrue(paymentSystemsPage.isVisaLogoDisplayed(), "Логотип Visa не найден");
+        Assert.assertTrue(paymentSystemsPage.isMastercardLogoDisplayed(), "Логотип Mastercard не найден");
+        Assert.assertTrue(paymentSystemsPage.isBelcardLogoDisplayed(), "Логотип Belcard не найден");
+        Assert.assertTrue(paymentSystemsPage.isWebmoneyLogoDisplayed(), "Логотип Webmoney не найден");
+        Assert.assertTrue(paymentSystemsPage.isQiwiLogoDisplayed(), "Логотип Qiwi не найден");
+        Assert.assertTrue(paymentSystemsPage.isPaypalLogoDisplayed(), "Логотип Paypal не найден");
         System.out.println("Все логотипы платёжных систем найдены.");
     }
 
     @Test
     public void testDetailsLink() {
-        WebElement detailsLink = driver.findElement(By.linkText("Подробнее о сервисе"));
-        Assert.assertTrue(detailsLink.isDisplayed(), "Ссылка 'Подробнее о сервисе' не найдена");
-        detailsLink.click();
-        Assert.assertTrue(driver.getTitle().contains("Подробнее о сервисе"), "Не удалось перейти на страницу 'Подробнее о сервисе'");
+        homePage.clickDetailsLink();
+        Assert.assertTrue(homePage.getPageTitle().contains("Подробнее о сервисе"), "Не удалось перейти на страницу 'Подробнее о сервисе'");
         System.out.println("Ссылка 'Подробнее о сервисе' работает корректно.");
-        driver.navigate().back();
+        homePage.navigateBack();
     }
 
     @Test
     public void testContinueButton() {
-        WebElement serviceRadioButton = driver.findElement(By.id("service-radio-id")); // Замените на реальный ID
-        serviceRadioButton.click();
-
-        WebElement phoneNumberInput = driver.findElement(By.id("phone-input-id")); // Замените на реальный ID
-        phoneNumberInput.sendKeys("297777777");
-
-        WebElement continueButton = driver.findElement(By.id("continue-button-id")); // Замените на реальный ID
-        continueButton.click();
-
+        homePage.selectService();
+        homePage.enterPhoneNumber("297777777");
+        homePage.clickContinueButton();
         Assert.assertTrue(driver.getPageSource().contains("Успех"), "Кнопка 'Продолжить' не сработала");
         System.out.println("Кнопка 'Продолжить' успешно проверена.");
     }
