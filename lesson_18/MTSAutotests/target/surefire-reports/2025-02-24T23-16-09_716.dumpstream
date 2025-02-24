@@ -1,0 +1,5 @@
+# Created at 2025-02-24T23:16:09.895
+Boot Manifest-JAR contains absolute paths in classpath 'D:\MyGithub\ASTON_homework\ASTON_homework\lesson_18\MTSAutotests\target\test-classes'
+Hint: <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
+'other' has different root
+
